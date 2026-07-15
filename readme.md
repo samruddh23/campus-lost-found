@@ -1,252 +1,152 @@
-# Campus Lost & Found
+# 🎓 Campus Lost & Found
 
-A web-based Lost & Found Management System for educational institutions.  
-Students can report lost/found items, search reports, and receive AI-assisted match suggestions.  
-Admins can manage users and moderate reports from a centralized backend.
+A comprehensive, AI-powered web-based Lost & Found Management System designed for educational institutions. This system streamlines the recovery of lost items by combining user-reported data with automated AI-assisted matching and email notifications.
 
 ---
 
-## Current Status
+## 🚀 Features
 
-✅ **Phase 1 Complete** (Core backend: auth, CRUD, search, admin, uploads)  
-✅ **Phase 2 Complete** (AI matching, confidence scoring, notifications, parser)  
-🛠️ **Phase 3 Planned** (React frontend)
+* **User Management:** Secure registration, login, and profile management using JWT authentication.
+* **Item Reporting:** Full CRUD operations for both "Lost" and "Found" items with image upload support.
+* **Smart Search:** Unified search functionality with filters (category, item name, date, location).
+* **AI-Assisted Matching:**
+* Image embedding extraction using PyTorch.
+* Metadata similarity analysis (text/category/date).
+* Weighted confidence scoring for ranked matches.
+
+
+* **Automated Notifications:** Email alerts triggered by high-confidence matches via Flask-Mail.
+* **AI Parser:** Free-text parsing to extract structured data (category, item, location, date).
+* **Admin Dashboard:** Centralized moderation to manage reports and user roles.
 
 ---
 
-## Project Architecture
+## 🛠️ Project Architecture
 
 ```text
 campus-lost-found/
-│
-├── backend/
-│   ├── app.py
-│   ├── config.py
-│   ├── requirements.txt
-│   ├── models/
-│   ├── routes/
-│   ├── ai/
-│   ├── utils/
-│   ├── uploads/
-│   └── database.db
-│
-└── frontend/   (planned)
+├── backend/            # Flask API, AI logic, and Database
+└── frontend/           # React + Vite dashboard
+
 ```
 
 ---
 
-## Backend Tech Stack
-
-- Python
-- Flask
-- Flask-SQLAlchemy
-- Flask-JWT-Extended
-- Flask-CORS
-- Flask-Mail
-- Werkzeug
-- Pillow
-- SQLite (current; MySQL-ready later)
-
----
-
-## Implemented Features
-
-### Authentication & User
-- Register
-- Login
-- Get profile
-- Update profile (`PUT /profile` and `/auth/profile`)
-- JWT-protected endpoints
-
-### Lost & Found Reports
-- Create, list, retrieve, update, delete lost items
-- Create, list, retrieve, update, delete found items
-- Owner/admin authorization checks
-- Image upload support (multipart form-data + backward-compatible image string handling)
-
-### Search
-- Unified `GET /search` endpoint
-- Filters supported (combinable):
-  - `category`
-  - `item`
-  - `date` (`YYYY-MM-DD`)
-  - `location`
-
-### Admin
-- View all reports
-- Remove fake reports
-- Manage users (list, role update, delete with safety checks)
-
-### AI Matching (Phase 2)
-- Image embeddings (pretrained model pipeline)
-- Metadata similarity (text/category/date)
-- Weighted confidence scoring
-- Ranked match outputs
-- Endpoints:
-  - `GET /lost/<id>/matches`
-  - `GET /found/<id>/matches`
-- Graceful metadata-only fallback when embeddings are unavailable
-
-### Email Notifications (Phase 2)
-- Threshold-based match notifications
-- Flask-Mail integration
-- SMTP failure-safe behavior (API does not crash)
-- DB-backed deduplication to prevent repeated notifications
-
-### AI Parser (Phase 2)
-- Free-text report parsing endpoint:
-  - `POST /ai/parse`
-- Returns structured fields:
-  - `item_name`, `category`, `location`, `date`
-
----
-
-## API Overview
-
-## Auth
-- `POST /register` (alias for `/auth/register`)
-- `POST /login` (alias for `/auth/login`)
-- `GET /profile` (alias for `/auth/profile`)
-- `PUT /profile` (alias for `/auth/profile`)
-
-## Lost
-- `POST /lost`
-- `GET /lost`
-- `GET /lost/<id>`
-- `PUT /lost/<id>`
-- `DELETE /lost/<id>`
-- `GET /lost/<id>/matches`
-
-## Found
-- `POST /found`
-- `GET /found`
-- `GET /found/<id>`
-- `PUT /found/<id>`
-- `DELETE /found/<id>`
-- `GET /found/<id>/matches`
-
-## Search
-- `GET /search?category=...&item=...&date=YYYY-MM-DD&location=...`
-
-## Admin
-- `GET /admin/reports`
-- `DELETE /admin/reports/<item_type>/<item_id>`
-- `GET /admin/users`
-- `PUT /admin/users/<user_id>/role`
-- `DELETE /admin/users/<user_id>`
-
-## AI
-- `POST /ai/parse`
-
----
-
-## Getting Started
+## 📋 Getting Started
 
 ### Prerequisites
-- Python 3.10+
-- Git
 
-### Clone
+* **Python 3.10+**
+* **Node.js 18+**
+* **Git**
+
+### 1. Setup the Backend
+
+The backend manages authentication, AI similarity matching, and storage.
+
+1. **Clone and navigate:**
 ```bash
 git clone <repository-url>
 cd campus-lost-found
+
 ```
 
-### Virtual Environment
+
+2. **Setup virtual environment:**
+* **Windows:**
 ```bash
 python -m venv venv
-```
-
-Linux/macOS:
-```bash
-source venv/bin/activate
-```
-
-Windows:
-```cmd
 venv\Scripts\activate
+
 ```
 
-### Install Dependencies
+
+* **macOS/Linux:**
+```bash
+python3 -m venv venv
+source venv/bin/activate
+
+```
+
+
+
+
+3. **Install dependencies:**
 ```bash
 pip install -r backend/requirements.txt
+
 ```
 
----
 
-## Configuration
-
-Create `backend/.env`:
-
-```env
-SECRET_KEY=your_secret_key
-JWT_SECRET_KEY=your_jwt_secret
-DATABASE_URI=sqlite:///database.db
-FLASK_DEBUG=false
-
-# Upload settings
-MAX_CONTENT_LENGTH=5242880
-
-# Mail settings
-MAIL_SERVER=smtp.example.com
-MAIL_PORT=587
-MAIL_USE_TLS=true
-MAIL_USE_SSL=false
-MAIL_USERNAME=your_email_username
-MAIL_PASSWORD=your_email_password
-MAIL_DEFAULT_SENDER=noreply@campus.edu
-
-# Notification settings
-MATCH_NOTIFY_THRESHOLD=75.0
-```
-
----
-
-## Run the Backend
-
+*(Note: This includes `torch` and `torchvision` for AI features.)*
+4. **Configure:**
+Create a `.env` file in the `backend/` directory by copying `backend/.env.example` and filling in your SMTP and security settings.
+5. **Run the API:**
 ```bash
 cd backend
 python app.py
+
 ```
 
-Base URL:
-```text
-http://127.0.0.1:5000
-```
+
+*The server will start at `[http://127.0.0.1:5000](http://127.0.0.1:5000)`.*
 
 ---
 
-## Authentication Header
+### 2. Setup the Frontend
 
-For protected endpoints:
+The frontend provides a modern, dark-themed user interface.
 
-```http
-Authorization: Bearer <JWT_TOKEN>
-```
-
----
-
-## Testing
-
-From `backend/` directory:
-
+1. **Navigate to frontend:**
 ```bash
-python test_phase1_alignment.py
-python test_matcher.py
-python test_ai_pipeline.py
-python test_notifications.py
+cd ../frontend
+
 ```
 
+
+2. **Install dependencies:**
+```bash
+npm install
+
+```
+
+
+3. **Launch the development server:**
+```bash
+npm run dev
+
+```
+
+
+*Access the dashboard via the URL provided (usually `http://localhost:5173`).*
+
 ---
 
-## Notes
+## 🧪 Testing
 
-- SQLite is used by default for development.
-- Project is modular and prepared for frontend integration (Phase 3).
-- MySQL migration can be added later without major API changes.
+Ensure your virtual environment is active, navigate to `backend/`, and run the test suite to verify system integrity:
+
+* `python test_phase1_alignment.py` (Database & CRUD)
+* `python test_matcher.py` (Match heuristics)
+* `python test_ai_pipeline.py` (AI embedding extraction)
+* `python test_notifications.py` (Email dispatchers)
 
 ---
 
-## License
+## ⚙️ API Overview
+
+| Feature | Endpoint | Method |
+| --- | --- | --- |
+| **Auth** | `/auth/login`, `/auth/register` | `POST` |
+| **Reports** | `/lost` / `/found` | `GET`, `POST`, `PUT`, `DELETE` |
+| **Matches** | `/<type>/<id>/matches` | `GET` |
+| **AI Parsing** | `/ai/parse` | `POST` |
+| **Admin** | `/admin/reports`, `/admin/users` | `GET`, `PUT`, `DELETE` |
+
+*For protected endpoints, include the header: `Authorization: Bearer <JWT_TOKEN>*`
+
+---
+
+## 📜 License
 
 Developed for educational purposes.
