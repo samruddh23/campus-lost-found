@@ -1,0 +1,30 @@
+.profile-container { max-width: 900px; }
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.profile-card__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.profile-avatar {
+  width: 60px; height: 60px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+  flex-shrink: 0;
+}
+
+@media (max-width: 700px) {
+  .profile-grid { grid-template-columns: 1fr; }
+}
