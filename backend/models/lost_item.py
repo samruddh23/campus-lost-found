@@ -27,5 +27,8 @@ class LostItem(db.Model):
             "date_lost": self.date_lost.isoformat() if self.date_lost else None,
             "image": self.image,
             "status": self.status,
-            "created_at": self.created_at.isoformat() if self.created_at else None
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "reporter_name": self.user.name if self.user else None,
+            "reporter_email": self.user.email if self.user else None,
+            "reporter_phone": self.user.phone if self.user else None
         }

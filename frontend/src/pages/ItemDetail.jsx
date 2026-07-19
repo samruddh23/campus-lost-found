@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { MapPin, Calendar, Tag, User, Zap, Trash2, Edit, ArrowLeft, ImageOff, CheckCircle } from 'lucide-react';
+import { MapPin, Calendar, Tag, User, Zap, Trash2, Edit, ArrowLeft, ImageOff, CheckCircle, Mail, Phone } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
@@ -135,6 +135,26 @@ export default function ItemDetail() {
               <div className="item-detail__meta-item">
                 <User size={14} className="text-primary" />
                 <div><span className="text-muted text-xs">Reported</span><p>{formatDate(item.created_at)}</p></div>
+              </div>
+            </div>
+
+            {/* Contact Reporter */}
+            <div className="item-detail__contact">
+              <h3><User size={16} className="text-primary" /> Contact Reporter</h3>
+              <div className="item-detail__contact-grid">
+                <div className="item-detail__contact-field">
+                  <span><strong>Name:</strong> {item.reporter_name || 'Anonymous'}</span>
+                </div>
+                <div className="item-detail__contact-field">
+                  <Mail size={14} className="text-primary" />
+                  <span><strong>Email:</strong> <a href={`mailto:${item.reporter_email}`}>{item.reporter_email}</a></span>
+                </div>
+                {item.reporter_phone && (
+                  <div className="item-detail__contact-field">
+                    <Phone size={14} className="text-primary" />
+                    <span><strong>Phone:</strong> <a href={`tel:${item.reporter_phone}`}>{item.reporter_phone}</a></span>
+                  </div>
+                )}
               </div>
             </div>
 

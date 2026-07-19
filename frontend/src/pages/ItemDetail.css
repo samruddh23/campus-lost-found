@@ -116,3 +116,50 @@
   .item-detail__img { max-width: 400px; }
   .item-detail__meta-grid { grid-template-columns: 1fr; }
 }
+
+/* Contact Reporter Section */
+.item-detail__contact {
+  margin-top: 1.25rem;
+  padding: 1.25rem;
+  background: var(--color-surface2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.item-detail__contact h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.875rem;
+  color: var(--color-foreground);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.item-detail__contact-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.item-detail__contact-field {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.item-detail__contact-field strong {
+  color: var(--color-foreground);
+}
+
+.item-detail__contact-field a {
+  color: var(--color-primary-h);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.item-detail__contact-field a:hover {
+  text-decoration: underline;
+}
